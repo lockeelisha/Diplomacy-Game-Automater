@@ -1,48 +1,50 @@
 # os for file management
 import os
-import selenium
 import undetected_chromedriver as uc
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from dotenv import load_dotenv
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-import time
 
-
+# ask for types of games
 prefix = input('What is the game server?\n')
 type = input('What is the game type?')
 basenumber = input("What game number are you starting from?")
 game_total = input("How many games would you like?")
 
+# initiate webdriver
 driver = uc.Chrome(use_subprocess=True)
-
-load_dotenv()
-email = str(os.getenv('EMAIL'))
-password  = str(os.getenv('PASSWORD'))
 
 
 # Using Chrome to access web
 # Open the website
 driver.get('https:/backstabbr.com')
 
+try:
+        element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "large_login"))
+    )
+except:
+        driver.quit()
+
+# Click sign-in
+driver.find_element(By.ID, "large_login").click()
+
 # Bypass Bot Verification
 input('Confirm that you have logged in via Google\n')
 
-original_window = driver.current_window_handle
-print(driver.current_window_handle)
-
-
-
+# Create new games
 for i in range(int(game_total)):
-    print(i)
+    
+    # Open new Chrome Tab
     driver.switch_to.new_window('tab')
+    
+    # Open Backstabbr
     driver.get('https://www.backstabbr.com/game/new')
+    
+    # Format Game number correctly
     currentgame = int(basenumber) + int(i)
     game = str(currentgame)
     
@@ -77,12 +79,8 @@ for i in range(int(game_total)):
     initial = Select(driver.find_element(By.ID, 'initial_adjudication_period'))
     initial.select_by_value('2880')
 
-    
-    
-
     driver.find_element(By.XPATH, "//input[@name='name']").click()
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-
 
     if prefix == "Demosthenes":
         driver.find_element(By.ID, "skip").click()
@@ -97,8 +95,11 @@ for i in range(int(game_total)):
         body = driver.find_element(By.CSS_SELECTOR,'body')
         body.send_keys(Keys.PAGE_DOWN)
         driver.find_element(By.ID, "fast_adjudication").click()
+        driver.find_element(By.ID, "grace_period").click()
     else:
         driver.find_element(By.ID, "begin_when_full").click()
         driver.find_element(By.ID, "skip").click()
+        body.send_keys(Keys.PAGE_DOWN)
+        driver.find_element(By.ID, "grace_period").click()
 
 input('Confirm that you have taken care of Discord channels\n')
