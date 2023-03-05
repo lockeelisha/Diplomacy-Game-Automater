@@ -36,7 +36,7 @@ driver.find_element(By.ID, "large_login").click()
 input('Confirm that you have logged in via Google\n')
 
 # Create new games
-for i in range(int(game_total)):
+for i in range(int(range(game_total))):
     
     # Open new Chrome Tab
     driver.switch_to.new_window('tab')
