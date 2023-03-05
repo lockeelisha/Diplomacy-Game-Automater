@@ -36,7 +36,7 @@ driver.find_element(By.ID, "large_login").click()
 input('Confirm that you have logged in via Google\n')
 
 # Create new games
-for i in range(int(range(game_total))):
+for i in range(int(game_total)):
     
     # Open new Chrome Tab
     driver.switch_to.new_window('tab')
@@ -82,7 +82,7 @@ for i in range(int(range(game_total))):
     driver.find_element(By.XPATH, "//input[@name='name']").click()
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
-    for i in 5:
+    for i in range(5):
          body.send_keys(Keys.PAGE_DOWN)
 
     if prefix == "Demosthenes":
