@@ -94,6 +94,9 @@ for i in range(int(game_total)):
     driver.find_element(By.XPATH, "//input[@name='name']").click()
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
+    for i in range(5):
+         body.send_keys(Keys.PAGE_DOWN)
+
     if prefix == "Demosthenes":
         driver.find_element(By.ID, "skip").click()
         body = driver.find_element(By.CSS_SELECTOR,'body')
