@@ -8,7 +8,7 @@ from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+# GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -28,24 +28,19 @@ async def on_ready():
     my_background_task.start()
 
 @client.command()
-async def channelcreator(ctx, arg1, a: int, b: int, c):
-    guild = ctx.message.guild
-    print(guild.categories)
-    for item in guild.categories:
-        print(item)
-    channel = discord.utils.get(ctx.guild.channels, name=c)
-    channel_id = channel.id    
-    for i in range(b):
-        gamenumber = a + i
-        
-        if c!= "punk":
-            new_cat = await guild.create_category(c)
-        await guild.create_text_channel(f'{arg1}-{gamenumber}', category=channel_id)
+async def create_channels(ctx, category_name, channel_base_name, start_number, num_channels):
+    guild = ctx.guild
+    category = await guild.create_category(category_name)
 
-@channelcreator.error
+    for i in range(int(start_number), int(start_number) + int(num_channels)):
+        channel_name = f'{channel_base_name}-{i}'
+        channel = await guild.create_text_channel(channel_name, category=category)
+        print(f'Created channel: {channel.name}')
+
+""" @channelcreator.error
 async def channelcreator_error(ctx, error):
     if isinstance(error, commands.BadArgument):
-        await ctx.send('Make sure you have the type of game, the number where you are starting, and the number of games you want.')
+        await ctx.send('Make sure you have the type of game, the number where you are starting, and the number of games you want.') """
         
 client.run(TOKEN)
 
