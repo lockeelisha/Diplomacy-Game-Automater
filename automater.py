@@ -9,6 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver as uc
 
 # ask for types of games
 prefix = input('What is the game server?\n')
@@ -23,7 +24,7 @@ driver = uc.Chrome()
 
 # Using Chrome to access web
 # Open the website
-driver.get('https:/backstabbr.com')
+driver.get('https://backstabbr.com')
 
 try:
         element = WebDriverWait(driver, 10).until(
@@ -37,6 +38,8 @@ driver.find_element(By.ID, "large_login").click()
 
 # Bypass Bot Verification
 input('Confirm that you have logged in via Google\n')
+
+elem = driver.switch_to.active_element
 
 # Create new games
 for i in range(int(game_total)):
@@ -90,18 +93,19 @@ for i in range(int(game_total)):
     if type == "Long Gunboat":
         buildretreats.select_by_value('1')
     
-
     driver.find_element(By.XPATH, "//input[@name='name']").click()
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
-    for i in range(5):
-         body.send_keys(Keys.PAGE_DOWN)
+    """ for i in range(2):
+        body = driver.find_element(By.CSS_SELECTOR,'body')
+        body.send_keys(Keys.PAGE_DOWN) """
 
     if prefix == "Demosthenes":
+        elem = driver.switch_to.active_element
         driver.find_element(By.ID, "skip").click()
         body = driver.find_element(By.CSS_SELECTOR,'body')
         body.send_keys(Keys.PAGE_DOWN)
-        elem = driver.switch_to.active_element
+        # elem = driver.switch_to.active_element
         driver.find_element(By.ID, "fast_adjudication").click()
     elif type in ("Gunboat" , "Long Gunboat"):
         driver.find_element(By.ID, "begin_when_full").click()

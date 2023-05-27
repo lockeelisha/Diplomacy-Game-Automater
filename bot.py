@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import asyncio
 from discord.ext import tasks
 from discord.ext import commands
+from discord import app_commands
 
 
 load_dotenv()
@@ -14,6 +15,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = commands.Bot(command_prefix='/', intents=intents)
+# tree = app_commands.CommandTree(client)
 
 @tasks.loop(seconds=10.0)
 async def my_background_task():
