@@ -39,6 +39,17 @@ async def create_channels(ctx, category_name, channel_base_name, start_number, n
         channel = await guild.create_text_channel(channel_name, category=category)
         print(f'Created channel: {channel.name}')
 
+@client.command()
+async def create_tourney_channels(ctx, category_name, channel_base_name, start_set_number, number_in_set, num_channels):
+    guild = ctx.guild
+    category = await guild.create_category(category_name)
+
+    for i in range(int(start_set_number), int(start_set_number) + int(num_channels)):
+        for x in range (int(number_in_set)):
+            channel_name = f'{channel_base_name} Set {i} Game {x+1}'
+            channel = await guild.create_text_channel(channel_name, category=category)
+            print(f'Created channel: {channel.name}')        
+
 """ @channelcreator.error
 async def channelcreator_error(ctx, error):
     if isinstance(error, commands.BadArgument):

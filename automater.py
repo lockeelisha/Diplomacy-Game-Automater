@@ -100,8 +100,9 @@ for i in range(int(game_total)):
         body = driver.find_element(By.CSS_SELECTOR,'body')
         body.send_keys(Keys.PAGE_DOWN) """
 
+    elem = driver.switch_to.active_element
+
     if prefix == "Demosthenes":
-        elem = driver.switch_to.active_element
         driver.find_element(By.ID, "skip").click()
         body = driver.find_element(By.CSS_SELECTOR,'body')
         body.send_keys(Keys.PAGE_DOWN)
