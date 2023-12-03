@@ -19,7 +19,7 @@ game_total = input("How many games would you like?")
 
 # initiate webdriver
 # put this in parentheses if error happens ChromeDriverManager().install()
-driver = uc.Chrome()
+driver = uc.Chrome(executable_path="C:/Users/Elisha/Downloads/chrome-win32/chrome-win32/chrome.exe")
 
 
 # Using Chrome to access web
@@ -103,10 +103,23 @@ for i in range(int(game_total)):
     elem = driver.switch_to.active_element
 
     if prefix == "Demosthenes":
+        try:
+            element = WebDriverWait(driver, 30).until(
+            EC.element_to_be_clickable((By.ID, "skip"))
+            )
+        except:
+            driver.quit()
         driver.find_element(By.ID, "skip").click()
+        elem = driver.switch_to.active_element
         body = driver.find_element(By.CSS_SELECTOR,'body')
         body.send_keys(Keys.PAGE_DOWN)
-        # elem = driver.switch_to.active_element
+        try:
+            element = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "game_description"))
+            )
+        except:
+            driver.quit()
+
         driver.find_element(By.ID, "fast_adjudication").click()
     elif type in ("Gunboat" , "Long Gunboat"):
         driver.find_element(By.ID, "begin_when_full").click()
